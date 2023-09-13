@@ -36,7 +36,6 @@ export class App extends WebGLUtility {
   }
   // リサイズ処理
   resize() {
-    console.log('resize');
     this.canvas.width  = window.innerWidth;
     this.canvas.height = window.innerHeight;
   }
@@ -199,9 +198,9 @@ export class App extends WebGLUtility {
     gl.clearColor(0.158, 0.629, 0.81, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     // カリングの有効化 @@@
-    // gl.enable(gl.CULL_FACE);
+    gl.enable(gl.CULL_FACE);
     // 深度テストの有効化 @@@
-    // gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.DEPTH_TEST);
     
     this.viewMatrix = this.camera.update();
     const fovy   = 45;
@@ -217,47 +216,31 @@ export class App extends WebGLUtility {
     this.edgeDecide = false;
     // 裏面は描画しない
     gl.cullFace(gl.BACK);
-    // this.setWebGLAttribute(this.cVBO, this.attLocation, this.attStride, this.cIBO);
-    this.setWebGLAttribute(this.pVBO, this.attLocation, this.attStride, this.pIBO);
+    this.setWebGLAttribute(this.cVBO, this.attLocation, this.attStride, this.cIBO);
+    // this.setWebGLAttribute(this.pVBO, this.attLocation, this.attStride, this.pIBO);
     this.setWebGLUniform([
       this.modelMatrix,
       this.viewMatrix,
       this.projectionMatrix,
       this.edgeDecide,
     ], this.uniLocation, this.uniType);
-    // gl.drawElements(gl.TRIANGLES, this.cube.index.length, gl.UNSIGNED_SHORT, 0);
-    gl.drawElements(gl.TRIANGLES, this.plane.index.length, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, this.cube.index.length, gl.UNSIGNED_SHORT, 0);
+    // gl.drawElements(gl.TRIANGLES, this.plane.index.length, gl.UNSIGNED_SHORT, 0);
 
     // // エッジ用ジオメトリの描画
-    // this.edgeDecide = true;
+    this.edgeDecide = true;
     // // 表面は描画しない
-    // gl.cullFace(gl.FRONT);
-    // this.setWebGLAttribute(this.cVBO, this.attLocation, this.attStride, this.cIBO);
+    gl.cullFace(gl.FRONT);
+    this.setWebGLAttribute(this.cVBO, this.attLocation, this.attStride, this.cIBO);
     // // this.setWebGLAttribute(this.pVBO, this.attLocation, this.attStride, this.pIBO);
-    // this.setWebGLUniform([
-    //   this.modelMatrix,
-    //   this.viewMatrix,
-    //   this.projectionMatrix,
-    //   this.edgeDecide,
-    // ], this.uniLocation, this.uniType);
-    // gl.drawElements(gl.TRIANGLES, this.cube.index.length, gl.UNSIGNED_SHORT, 0);
-    // // gl.drawElements(gl.TRIANGLES, this.plane.index.length, gl.UNSIGNED_SHORT, 0);
+    this.setWebGLUniform([
+      this.modelMatrix,
+      this.viewMatrix,
+      this.projectionMatrix,
+      this.edgeDecide,
+    ], this.uniLocation, this.uniType);
+    gl.drawElements(gl.TRIANGLES, this.cube.index.length, gl.UNSIGNED_SHORT, 0);
+    // gl.drawElements(gl.TRIANGLES, this.plane.index.length, gl.UNSIGNED_SHORT, 0);
 
   }
 }
-const pos = [
-  -.5, -.5,  .5,  .5, -.5,  .5,  .5,  .5,  .5, -.5,  .5,  .5,
-  -.5, -.5, -.5, -.5,  .5, -.5,  .5,  .5, -.5,  .5, -.5, -.5,
-  -.5,  .5, -.5, -.5,  .5,  .5,  .5,  .5,  .5,  .5,  .5, -.5,
-  -.5, -.5, -.5,  .5, -.5, -.5,  .5, -.5,  .5, -.5, -.5,  .5,
-   .5, -.5, -.5,  .5,  .5, -.5,  .5,  .5,  .5,  .5, -.5,  .5,
-  -.5, -.5, -.5, -.5, -.5,  .5, -.5,  .5,  .5, -.5,  .5, -.5
-];
-const idx = [
-   0,  1,  2,  0,  2,  3,
-   4,  5,  6,  4,  6,  7,
-   8,  9, 10,  8, 10, 11,
-  12, 13, 14, 12, 14, 15,
-  16, 17, 18, 16, 18, 19,
-  20, 21, 22, 20, 22, 23
-];
