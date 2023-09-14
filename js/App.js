@@ -34,7 +34,7 @@ export class App extends WebGLUtility {
     });
     return Promise.all(promises);
   }
-  // リサイズ処理
+
   resize() {
     this.canvas.width  = window.innerWidth;
     this.canvas.height = window.innerHeight;
@@ -79,10 +79,10 @@ export class App extends WebGLUtility {
   }
 
   setupAttribute() {
-    // 共通で使用する頂点の色
+    // 共通で使用する頂点の色 @@@
     const color = [0.8124, 0.629, 0.81, 1.0];
 
-    // plane ジオメトリの生成
+    // plane ジオメトリの生成 @@@
     this.plane = this.createPlane(.1, .1, color);
     this.pVBO = [
       this.createWebGLVBO(this.plane.position),
@@ -91,7 +91,7 @@ export class App extends WebGLUtility {
     ];
     this.pIBO = this.createWebGLIBO(this.plane.index);
 
-    // cube ジオメトリの生成
+    // cube ジオメトリの生成 @@@
     this.cube = this.createCube(.1, color);
     this.cVBO = [
       this.createWebGLVBO(this.cube.position),
@@ -141,7 +141,7 @@ export class App extends WebGLUtility {
     ]
     return {position: pos, normal: nor, color: col, texCoord: st, index: frontIdx}
   }
-  // キューブを定義
+  
   createCube(side, color){
     const  hs = side * 0.5;
     const pos = [
@@ -212,9 +212,9 @@ export class App extends WebGLUtility {
   
     gl.useProgram(this.programObject);
 
-    // ジオメトリの描画
+    // ジオメトリの描画 @@@
     this.edgeDecide = false;
-    // 裏面は描画しない
+    // 裏面は描画しない @@@
     gl.cullFace(gl.BACK);
     this.setWebGLAttribute(this.cVBO, this.attLocation, this.attStride, this.cIBO);
     // this.setWebGLAttribute(this.pVBO, this.attLocation, this.attStride, this.pIBO);
@@ -227,9 +227,9 @@ export class App extends WebGLUtility {
     gl.drawElements(gl.TRIANGLES, this.cube.index.length, gl.UNSIGNED_SHORT, 0);
     // gl.drawElements(gl.TRIANGLES, this.plane.index.length, gl.UNSIGNED_SHORT, 0);
 
-    // // エッジ用ジオメトリの描画
+    // // エッジ用ジオメトリの描画 @@@
     this.edgeDecide = true;
-    // // 表面は描画しない
+    // // 表面は描画しない @@@
     gl.cullFace(gl.FRONT);
     this.setWebGLAttribute(this.cVBO, this.attLocation, this.attStride, this.cIBO);
     // // this.setWebGLAttribute(this.pVBO, this.attLocation, this.attStride, this.pIBO);

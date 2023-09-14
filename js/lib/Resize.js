@@ -21,7 +21,6 @@ export class Resize {
     this.lastUpdateTime = performance.now() * 0.001;
   }
 
-  //
   update(app){
     // 現在の環境ブラウザで実行可能なフレームレート(1秒間に60回呼び出す)
     requestAnimationFrame(this.update.bind(this, app));
